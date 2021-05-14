@@ -6,7 +6,7 @@ using Sandbox;
 namespace NetworkWrappers
 {
 	/// <inheritdoc cref="List{T}"/>
-	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>, 
+	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>,
 	{
 		private List<T> _internalList;
 
@@ -121,8 +121,12 @@ namespace NetworkWrappers
 		/// <inheritdoc cref="List{T}.Clear()"/>
 		public void Clear()
 		{
+			var count = _internalList.Count;
 			_internalList.Clear();
-			NetworkDirty( nameof(_internalList), NetVarGroup.Net );
+			if (count > 0)
+			{
+				NetworkDirty( nameof(_internalList), NetVarGroup.Net );
+			}
 		}
 
 		/// <inheritdoc cref="List{T}.Contains(T)"/>
@@ -140,8 +144,13 @@ namespace NetworkWrappers
 		/// <inheritdoc cref="List{T}.Remove(T)"/>
 		public bool Remove( T item )
 		{
+			if (!_internalList.Remove( item ))
+			{
+				return false;
+			}
+			
 			NetworkDirty( nameof(_internalList), NetVarGroup.Net );
-			return _internalList.Remove( item );
+			return true;
 		}
 
 		/// <inheritdoc cref="List{T}.Count"/>
