@@ -6,7 +6,7 @@ using Sandbox;
 namespace NetworkWrappers
 {
 	/// <inheritdoc cref="List{T}"/>
-	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>
+	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>, 
 	{
 		private List<T> _internalList;
 
@@ -40,7 +40,7 @@ namespace NetworkWrappers
 
 				if (old is IEquatable<T> equatable && value is IEquatable<T> newValue)
 				{
-					if (!equatable.Equals( newValue ))
+					if (!equatable.Equals( (T)newValue ))
 					{
 						NetworkDirty( nameof(_internalList), NetVarGroup.Net );
 					}
