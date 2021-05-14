@@ -10,3 +10,4 @@ Simple, replace the following types with my wrappers:
 # License
 
 Check LICENSE.MD, but basically, do whatever you want with it.
+@facepunch if you wanna add this, go ahead, my pleasure.
