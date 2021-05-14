@@ -5,7 +5,7 @@ A collection of network type wrappers for things like System.Collections.Generic
 
 Simple, replace the following types with my wrappers:
 
-- List<T> => NetworkedList<T>
+- List\<T\> => NetworkedList\<T\>
 
 # License
 
