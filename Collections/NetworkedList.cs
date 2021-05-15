@@ -5,12 +5,8 @@ using Sandbox;
 
 namespace NetworkWrappers
 {
-	/// <summary>
-	/// A networked list for references types.
-	/// For value types (aka structs), use <see cref="NetworkedValueList"/>
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T> where T : class
+	/// <inheritdoc cref="List{T}"/>
+	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>
 	{
 		private List<T> _internalList;
 
@@ -83,7 +79,24 @@ namespace NetworkWrappers
 
 			for (int i = 0; i < count; i++)
 			{
-				_internalList.Add( read.ReadClass<T>( null ) );
+				switch (default(T))
+				{
+					case string:
+						if (read.ReadClass<string>( null ) is T str) _internalList.Add( str );
+						break;
+					case Entity:
+						if (read.ReadClass<Entity>( null ) is T ent) _internalList.Add( ent );
+						break;
+					case NetworkClass:
+						if (read.ReadClass<NetworkClass>( null ) is T nc) _internalList.Add( nc );
+						break;
+					case INetIdentifiable:
+						if (read.ReadClass<INetIdentifiable>( null ) is T ni) _internalList.Add( ni );
+						break;
+					default:
+						_internalList.Add( read.Read<T>() );
+						break;
+				}
 			}
 
 			return true;
