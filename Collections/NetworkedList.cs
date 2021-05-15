@@ -5,7 +5,11 @@ using Sandbox;
 
 namespace NetworkWrappers
 {
-	/// <inheritdoc cref="List{T}"/>
+	/// <summary>
+	/// A networked list for references types.
+	/// For value types (aka structs), use <see cref="NetworkedValueList"/>
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T> where T : class
 	{
 		private List<T> _internalList;
