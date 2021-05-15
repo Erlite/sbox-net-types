@@ -76,29 +76,31 @@ namespace NetworkWrappers
 
 			var count = read.Read<int>();
 			_internalList = new List<T>( count );
+			var type = typeof(T);
 
 			for (int i = 0; i < count; i++)
 			{
-				switch (default(T))
+				if (type == typeof(string))
 				{
-					case string:
-						if (read.ReadClass<string>( null ) is T str) _internalList.Add( str );
-						break;
-					case Entity:
-						if (read.ReadClass<Entity>( null ) is T ent) _internalList.Add( ent );
-						break;
-					case NetworkClass:
-						if (read.ReadClass<NetworkClass>( null ) is T nc) _internalList.Add( nc );
-						break;
-					case INetIdentifiable:
-						if (read.ReadClass<INetIdentifiable>( null ) is T ni) _internalList.Add( ni );
-						break;
-					default:
-						_internalList.Add( read.Read<T>() );
-						break;
+					if (read.ReadClass<string>( null ) is T str) _internalList.Add( str );
+				}
+				else if (type.IsSubclassOf( typeof(Entity) ))
+				{
+					if (read.ReadClass<Entity>( null ) is T ent) _internalList.Add( ent );
+				}
+				else if (type.IsSubclassOf( typeof(NetworkClass) ))
+				{
+					if (read.ReadClass<NetworkClass>( null ) is T nc) _internalList.Add( nc );
+				}
+				else if (typeof(INetIdentifiable).IsAssignableFrom( type ))
+				{
+					if (read.ReadClass<INetIdentifiable>( null ) is T ni) _internalList.Add( ni );
+				}
+				else
+				{
+					_internalList.Add( read.Read<T>() );
 				}
 			}
-
 			return true;
 		}
 
