@@ -6,7 +6,7 @@ using Sandbox;
 namespace NetworkWrappers
 {
 	/// <inheritdoc cref="List{T}"/>
-	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>
+	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T> where T : class
 	{
 		private List<T> _internalList;
 
@@ -79,7 +79,7 @@ namespace NetworkWrappers
 
 			for (int i = 0; i < count; i++)
 			{
-				_internalList.Add( read.Read<T>() );
+				_internalList.Add( read.ReadClass<T>( null ) );
 			}
 
 			return true;
@@ -90,7 +90,6 @@ namespace NetworkWrappers
 			base.NetWrite( write );
 
 			write.Write( _internalList.Count );
-
 			foreach (var element in _internalList)
 			{
 				write.Write( element );
@@ -148,7 +147,7 @@ namespace NetworkWrappers
 			{
 				return false;
 			}
-			
+
 			NetworkDirty( nameof(_internalList), NetVarGroup.Net );
 			return true;
 		}
