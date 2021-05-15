@@ -75,7 +75,7 @@ namespace NetworkWrappers
 			base.NetRead( read );
 
 			var count = read.Read<int>();
-			_internalList.Clear();
+			_internalList = new List<T>( count );
 
 			for (int i = 0; i < count; i++)
 			{
