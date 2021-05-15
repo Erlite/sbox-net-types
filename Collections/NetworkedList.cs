@@ -6,7 +6,7 @@ using Sandbox;
 namespace NetworkWrappers
 {
 	/// <inheritdoc cref="List{T}"/>
-	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>,
+	public class NetworkedList<T> : NetworkClass, IList<T>, IReadOnlyList<T>
 	{
 		private List<T> _internalList;
 
