@@ -70,19 +70,19 @@ namespace NetworkWrappers
 				// Get key
 				if (keyType == typeof(string))
 				{
-					if (read.ReadClass<string>( null ) is TKey str) key = str;
+					if (read.ReadClass<string>( null, null ) is TKey str) key = str;
 				}
 				else if (keyType.IsSubclassOf( typeof(Entity) ))
 				{
-					if (read.ReadClass<Entity>( null ) is TKey ent) key = ent;
+					if (read.ReadClass<Entity>( null, null ) is TKey ent) key = ent;
 				}
 				else if (keyType.IsSubclassOf( typeof(NetworkClass) ))
 				{
-					if (read.ReadClass<NetworkClass>( null ) is TKey nc) key = nc;
+					if (read.ReadClass<NetworkClass>( null, null ) is TKey nc) key = nc;
 				}
 				else if (typeof(INetIdentifiable).IsAssignableFrom( keyType ))
 				{
-					if (read.ReadClass<INetIdentifiable>( null ) is TKey ni) key = ni;
+					if (read.ReadClass<INetIdentifiable>( null, null ) is TKey ni) key = ni;
 				}
 				else
 				{
@@ -92,19 +92,19 @@ namespace NetworkWrappers
 				// Get value
 				if (valueType == typeof(string))
 				{
-					if (read.ReadClass<string>( null ) is TValue str) value = str;
+					if (read.ReadClass<string>( null, null ) is TValue str) value = str;
 				}
 				else if (valueType.IsSubclassOf( typeof(Entity) ))
 				{
-					if (read.ReadClass<Entity>( null ) is TValue ent) value = ent;
+					if (read.ReadClass<Entity>( null, null ) is TValue ent) value = ent;
 				}
 				else if (valueType.IsSubclassOf( typeof(NetworkClass) ))
 				{
-					if (read.ReadClass<NetworkClass>( null ) is TValue nc) value = nc;
+					if (read.ReadClass<NetworkClass>( null, null ) is TValue nc) value = nc;
 				}
 				else if (typeof(INetIdentifiable).IsAssignableFrom( valueType ))
 				{
-					if (read.ReadClass<INetIdentifiable>( null ) is TValue ni) value = ni;
+					if (read.ReadClass<INetIdentifiable>( null, null ) is TValue ni) value = ni;
 				}
 				else
 				{

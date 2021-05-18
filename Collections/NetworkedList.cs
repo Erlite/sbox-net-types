@@ -82,24 +82,26 @@ namespace NetworkWrappers
 			{
 				if (type == typeof(string))
 				{
-					if (read.ReadClass<string>( null ) is T str) _internalList.Add( str );
+					if (read.ReadClass<string>( null, null ) is T str) _internalList.Add( str );
 				}
 				else if (type.IsSubclassOf( typeof(Entity) ))
 				{
-					if (read.ReadClass<Entity>( null ) is T ent) _internalList.Add( ent );
+					if (read.ReadClass<Entity>( null, null ) is T ent) _internalList.Add( ent );
 				}
 				else if (type.IsSubclassOf( typeof(NetworkClass) ))
 				{
-					if (read.ReadClass<NetworkClass>( null ) is T nc) _internalList.Add( nc );
+					if (read.ReadClass<NetworkClass>( null, null ) is T nc) _internalList.Add( nc );
 				}
 				else if (typeof(INetIdentifiable).IsAssignableFrom( type ))
 				{
-					if (read.ReadClass<INetIdentifiable>( null ) is T ni) _internalList.Add( ni );
+					if (read.ReadClass<INetIdentifiable>( null, null ) is T ni) _internalList.Add( ni );
 				}
 				else
 				{
 					_internalList.Add( read.Read<T>() );
 				}
+
+				Log.Info( $"Received '{_internalList[^1]}" );
 			}
 			return true;
 		}
