@@ -6,6 +6,8 @@ A collection of network type wrappers for things like System.Collections.Generic
 Simple, replace the following types with my wrappers:
 
 - List\<T\> => NetworkedList\<T\>
+- Dictionary\<T\> => NetworkedDirectory\<T\>
+- NetworkVar\<T\> will automatically call NetworkDirty() and raise an event on change.
 
 # License
 
