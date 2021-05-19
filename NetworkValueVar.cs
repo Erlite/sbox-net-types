@@ -8,7 +8,7 @@ namespace NetworkWrappers
     /// Wraps a type to provide a callback when the value is set or changes.
     /// </summary>
     /// <typeparam name="T"> The type of the variable to wrap. </typeparam>
-    public class NetworkVar<T> : NetworkClass, IEquatable<T> where T : class
+    public class NetworkValueVar<T> : NetworkClass, IEquatable<T> where T : unmanaged
     {
         private T _value;
 
@@ -62,7 +62,7 @@ namespace NetworkWrappers
         /// <summary>
         /// Create a new networked variable with a callback on change.
         /// </summary>
-        public NetworkVar() : this(default)
+        public NetworkValueVar() : this(default)
         {
         }
 
@@ -70,17 +70,9 @@ namespace NetworkWrappers
         /// Create a new networked variable with a callback on change, with a default value.
         /// </summary>
         /// <param name="defaultValue"> Default value to set this networked variable to. </param>
-        public NetworkVar(T defaultValue)
+        public NetworkValueVar(T defaultValue)
         {
             _value = defaultValue;
-            var type = typeof(T);
-            if (!type.IsSubclassOf(typeof(NetworkClass))
-                && !type.IsSubclassOf(typeof(Entity))
-                && !typeof(INetIdentifiable).IsAssignableFrom(type)
-                && type != typeof(string))
-            {
-                throw new NotSupportedException("You can only network NetworkClass, Entity, string or INetIdentifiable. Use a struct or unmanaged type with NetworkValueVar<T> for other types.");
-            }
         }
 
         public override bool NetWrite(NetWrite write)
@@ -95,16 +87,15 @@ namespace NetworkWrappers
         {
             base.NetRead(read);
 
-            Value = read.ReadClass<T>(null, null);
+            Value = read.Read<T>();
 
             return true;
         }
-
-        public bool Equals(T? other)
+        
+        public bool Equals(T other)
         {
             return Equals((object)other);
         }
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -113,10 +104,10 @@ namespace NetworkWrappers
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;
-            return Equals((NetworkVar<T>)obj);
+            return Equals((NetworkValueVar<T>)obj);
         }
 
-        protected bool Equals(NetworkVar<T> other)
+        protected bool Equals(NetworkValueVar<T> other)
         {
             return EqualityComparer<T>.Default.Equals(_value, other._value);
         }
@@ -126,6 +117,6 @@ namespace NetworkWrappers
             return EqualityComparer<T>.Default.GetHashCode(_value);
         }
 
-        public static implicit operator T(NetworkVar<T> networkVar) => networkVar.Value;
+        public static implicit operator T(NetworkValueVar<T> networkVar) => networkVar.Value;
     }
 }
