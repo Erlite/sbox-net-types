@@ -150,6 +150,9 @@ namespace NetworkWrappers
             NetworkDirty(nameof(_internalList), NetVarGroup.Net);
             return true;
         }
+        
+        /// <inheritdoc cref="List{T}.Count"/>
+        public int Count => _internalList.Count;
 
         /// <inheritdoc cref="List{T}.Count"/>
         int ICollection<T>.Count => _internalList.Count;
